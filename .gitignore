@@ -1,0 +1,9 @@
+*.swp
+*.pyc
+*.egg
+*.coverage
+*.egg-info
+*.DS_Store
+*tests/s3/
+*build
+*dist
