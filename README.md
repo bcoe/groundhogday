@@ -47,7 +47,7 @@ The Groundhog Day decorator can be configured with the following parameters.
 
 * _maximum_retries_: how many retries before raising an exception.
 * _sleep\_time_: how long should Groundhog Day sleep before invoking the method again.
-* _backoff_: the back off type, either LINEAR or EXPONENTIAL (defaults to EXPONENTIAL).
+* _backoff_: the backoff type, either LINEAR or EXPONENTIAL (defaults to EXPONENTIAL).
 * _notification\_threshold_: an optional threshold for configuring a one time notification, prior to retries actually terminating.
 * _notification\_callback_: the name of a callback to execute when the notification threshold is reached.
 * _exception\_callback_: the name of a callback to execute after each exception occurs.
