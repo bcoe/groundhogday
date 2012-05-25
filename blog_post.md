@@ -104,7 +104,7 @@ class MyClass(object):
 Airbrake is a service that centrally aggregates the exceptions your projects throw. It handles notifying you by email, and provides a historical view of exceptions that have occurred.
 
 * We've been much more proactive about fixing problems, since starting to use Airbrake -- getting hassled via email goes a long way.
-* Airbrake's historical record of exceptions helps a ton when building mock APIs for unit tests.
+* Airbrake's historical record of exceptions helps a ton when building mock responses for unit tests.
 
 _groundhogday_ also has an Airbrake decorator, which we lean on heavily:
 
