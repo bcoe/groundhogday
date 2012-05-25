@@ -27,7 +27,15 @@ Start with integration tests:
 
 If you don't approach things methodically, you'll just make things worse -- trust me.
 
-Here's an example of a unit test I built around throttled IMAP accounts:
+An example
+----------
+We needed to be able to handle throttled IMAP accounts.
+
+The first step was finding an account in a throttled state.
+
+From this integration test we determined that, ```python typ, data = self.connection.check()```, would return _data_ which contained the string _THROTTLED_.
+
+From here we went on to create a unit test around the behavior:
 
 ```python
 def test_iterate_sets_a_throttle_backoff_timestamp(self):
@@ -42,8 +50,6 @@ def test_iterate_sets_a_throttle_backoff_timestamp(self):
     })
     self.assertTrue(crawl_status_objects[0]['throttle_backoff_timestamp'] > 1330636773)
 ```
-
-This test was built only after an integration test was built around an account which had fallen into a throttled state.
 
 3. Extra layers of abstraction help
 -----------------------------------
