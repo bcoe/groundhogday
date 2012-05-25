@@ -7,11 +7,15 @@ from groundhogday import GroundhogDayClass
 class AirbrakeNotifier(object):
     
     def __init__(self, **kwargs):
+        self.environment = kwargs.get('environment', 'production')
         self.additional_information = kwargs['additional_information']
         self.pytoad_connection = Connection(**kwargs)
         
     def __call__(self, e):
-        self.pytoad_connection.send_to_hoptoad(e, self.additional_information)
+        if not self.environment == 'test':
+            self.pytoad_connection.send_to_hoptoad(e, self.additional_information)
+        else:
+            print 'Would send (%s %s) to airbrake' % (e, self.additional_information)
 
 def _get_additional_information(f):
     try:

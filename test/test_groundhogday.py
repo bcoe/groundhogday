@@ -30,6 +30,17 @@ class AwesomeFakeClass():
     @GroundhogDay(environment='test', backoff=LINEAR, sleep_time=50, maximum_retries=3)
     def test_environment_method(self):
         raise Exception('test exception')
+        
+    @RetryWithAirbrake(
+        name='Python-Crawling-Stack',
+        version='1.0.0',
+        url='http://attachments.me',
+        environment_name='production',
+        api_key='[AIRBRAKE-API-KEY]',
+        environment='test'
+    )
+    def function_that_sends_error_to_airbrake(self):
+        raise Exception('an airbrake exception')
     
     @GroundhogDay
     def function_that_works(self):
@@ -138,3 +149,10 @@ class TestGroundhogDay(unittest.TestCase):
         except:
             pass
         self.assertEqual(3, afc.executed_methods['my_exception_callback'])
+        
+    def test_airbrake_retry_decorator(self):
+        afc = AwesomeFakeClass(self)
+        try:
+            afc.function_that_sends_error_to_airbrake()
+        except:
+            pass
