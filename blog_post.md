@@ -101,7 +101,7 @@ class MyClass(object):
 4. Airbrake is really helpful
 ----------------------------
 
-Airbrake centrally aggregates the exceptions your projects throw. It handles notifying you by email, and provides a historical view of exceptions that have occurred.
+Airbrake is a service that centrally aggregates the exceptions your projects throw. It handles notifying you by email, and provides a historical view of exceptions that have occurred.
 
 * We've been much more proactive about fixing problems, since pulling in Airbrake -- getting hassled via email goes a long way.
 * Airbrake's historical record of exceptions helps a ton when building mock APIs for unit tests.
