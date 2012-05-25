@@ -98,8 +98,6 @@ class MyClass(object):
 		print str(last_error)
 ```
 
-checkout the projects main page for more information.
-
 4. Airbrake is really helpful
 ----------------------------
 
