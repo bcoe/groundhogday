@@ -9,7 +9,7 @@ Attachments.me has created a ton of cool tech on top of Gmail's [XOAUTH IMAP API
 
 Building resilient software, in the face of these restrictions, has been a challenge.
 
-In this post, I want to share some of the techniques I've picked up for building resilient software on third party APIs.
+In this post, I want to share some of the techniques I've picked up for building resilient software dependent on third party APIs.
 
 1. Unit testing is more important than ever
 --------------------------------------------
@@ -23,7 +23,7 @@ Start with integration tests:
 * log all the responses coming back from an external API.
 * try your damnedest to cause a hypothesized exception to occur.
 * create a mock version of the API that simulates this behavior.
-* only now start working on your clever fix to the problem.
+* only now start working on a fix.
 
 If you don't approach things methodically, you'll just make things worse -- trust me.
 
