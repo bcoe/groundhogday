@@ -93,8 +93,8 @@ class TestGroundhogDay(unittest.TestCase):
             afc.function_that_raises_exception(add=1)
         except:
             pass
-        self.assertTrue(time.time() - start >= 0.7)
-        self.assertTrue(time.time() - start <= 1.0)
+        self.assertTrue(time.time() - start >= 0.3)
+        self.assertTrue(time.time() - start <= 0.5)
     
     def test_maximum_retry_callback_executed_with_appropriate_exception(self):
         afc = AwesomeFakeClass(self)
@@ -120,8 +120,8 @@ class TestGroundhogDay(unittest.TestCase):
             afc.linear_backoff_exception(add=1)
         except:
             pass
-        self.assertTrue(time.time() - start >= 0.7)
-        self.assertTrue(time.time() - start <= 1.0)
+        self.assertTrue(time.time() - start >= 0.5)
+        self.assertTrue(time.time() - start <= 0.7)
     
     #   An integration test while building the retry_with_airbrake decorator.
     #   def test_airbrake_retry_decorator(self):

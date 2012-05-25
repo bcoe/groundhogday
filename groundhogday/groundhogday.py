@@ -31,7 +31,10 @@ class GroundhogDayClass(object):
         def wrap(*args, **kwargs):
             last_exception = None
             
-            for retry_count in range(0, self.maximum_retries):            
+            for retry_count in range(0, self.maximum_retries):
+                if retry_count:
+                    self._sleep(retry_count)
+                    
                 try:
                     return self.f(*args, **kwargs)
                 except Exception, e:
@@ -43,8 +46,6 @@ class GroundhogDayClass(object):
                     notification_callback = self._get_wrapped_method(args[0], self.notification_callback_name)
                     if notification_callback and retry_count == (self.notification_threshold - 1):
                         notification_callback(last_exception)
-                
-                self._sleep(retry_count)
             
             if self.maximum_retry_callback_name:
                 maximum_retry_callback = self._get_wrapped_method(args[0], self.maximum_retry_callback_name)
