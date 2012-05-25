@@ -3,7 +3,7 @@ Adventures with IMAP: building for third party APIs
 
 Attachments.me has created a ton of cool tech on top of Gmail's [XOAUTH IMAP API](http://googlecode.blogspot.com/2010/03/oauth-access-to-imapsmtp-in-gmail.html). I'm proud of this. Particularly because Google's IMAP is a difficult technology to build on top of:
 
-* It's limited to 10 concurrent connections.
+* Concurrent connections are limited.
 * Accounts are frequently throttled.
 * Sessions can terminate unexpectedly.
 
