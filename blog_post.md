@@ -9,7 +9,7 @@ Attachments.me has created a ton of cool tech on top of Gmail's [XOAUTH IMAP API
 
 Building resilient software, in the face of these restrictions, has been a challenge.
 
-In this post, I want to share some of the techniques I've picked up for building resilient software dependent on third party APIs.
+In this post, I want to share some of the techniques I've picked up for building software which depends heavily on third party APIs.
 
 1. Unit testing is more important than ever
 --------------------------------------------
@@ -71,7 +71,7 @@ message_id = self.redis.rpop(self.redis_key)
 
 * we have a monitoring layer that observes keys in Redis, and proactively ensures that crawls complete.
 
-3. Retry things, but be smart about it
+3. Retry operations
 ---------------------------------------
 
 When a third-party API throws an exception, there are a lot of situations where trying again is your best course of action.
