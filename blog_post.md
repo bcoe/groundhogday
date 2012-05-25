@@ -59,8 +59,8 @@ We've used Redis to build an abstraction layer on top of the IMAP crawling proce
 ```python
 def _track_with_redis(self):
 	typ, ids = self.connection.uid('search', '(X-GM-RAW has:attachment)')
-		for id in ids:
-	self.redis.rpush(self.redis_key, id)
+	for id in ids:
+		self.redis.rpush(self.redis_key, id)
 ```
 
 * as we iterate over the account we grab ids from redis:
@@ -71,10 +71,56 @@ message_id = self.redis.rpop(self.redis_key)
 
 * we have a monitoring layer that observes keys in Redis, and proactively ensures that crawls complete.
 
-3. Retry operations, but be smart about it
-------------------------------------------
+3. Retry things, but be smart about it
+---------------------------------------
+
+When a third-party API throws an exception, there are a lot of situations where trying again is your best course of action.
+
+I built the library _groundhogday_ for simplifying this process:
+
+* it allows you to retry a method a set number of times.
+* sleeps a set period of time, rather than immediately performing the operation a second time.
+* it exposes hooks to help with proactively recovering from exceptions.
+
+Here's an example:
+
+```python
+import groundhogday
+from groundhogday import GroundhogDay
+
+class MyClass(object):
+	@GroundhogDay(backoff=groundhogday.LINEAR, maximum_retry_callback='maximum_retries_reached')
+	def my_function(self):
+		print 'my message'
+		raise Exception('my exception')
+	
+	def maximum_retries_reached(self, last_error):
+		print str(last_error)
+```
+
+checkout the projects main page for more information.
 
 4. Airbrake is really helpful
 ----------------------------
+
+Airbrake centrally aggregates the exceptions your projects throw. It handles notifying you by email, and provides a historical view of exceptions that have occurred.
+
+* We've been much more proactive about fixing problems, since pulling in Airbrake -- getting hassled via email goes a long way.
+* Airbrake's historical record of exceptions helps a ton when building mock APIs for unit tests.
+
+_groundhogday_ also has an Airbrake decorator, which we lean on heavily:
+
+```python
+class MyClass(object):
+	@RetryWithAirbrake(
+		name='Python-Crawling-Stack',
+		version='1.0.0',
+		url='http://attachments.me',
+		environment_name='production',
+		api_key='[AIRBRAKE-API-KEY]'
+	)
+	def function_that_sends_error_to_airbrake(self):
+		raise Exception('This exception will be sent to Airbrake')
+```
 
 [Ben Coe](http://twitter.com/#/benjamincoe)
