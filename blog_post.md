@@ -33,7 +33,7 @@ We needed to be able to handle throttled IMAP accounts.
 
 The first step was finding an account in a throttled state.
 
-From this integration test we determined that, ```python typ, data = self.connection.check()```, would return _data_ which contained the string _THROTTLED_.
+From this integration test we determined that ```typ, data = self.connection.check()``` would return _data_ which contained the string _THROTTLED_.
 
 From here we went on to create a unit test around the behavior:
 
