@@ -31,7 +31,7 @@ An example
 ----------
 We needed to be able to handle throttled IMAP accounts.
 
-From an integration test we determined that ```typ, data = self.connection.check()``` would return _data_ which contained the string _THROTTLED_.
+From an integration test, we determined that ```typ, data = self.connection.check()``` would return _THROTTLED_, when accounts were in a throttled state.
 
 From here we went on to create a unit test around the behavior:
 
@@ -49,17 +49,32 @@ def test_iterate_sets_a_throttle_backoff_timestamp(self):
     self.assertTrue(crawl_status_objects[0]['throttle_backoff_timestamp'] > 1330636773)
 ```
 
-3. Extra layers of abstraction help
+2. Extra layers of abstraction help
 -----------------------------------
 
-Take a step back, think of it in terms of what you need from the API.
+We've used Redis to build an abstraction layer on top of the IMAP crawling process. We take a transactional approach:
 
-* in our case, we needed to perform an initial index of all the attachments in a user's email account.
+* when we start crawling an email account we populate a stack in Redis:
 
-4. Retry operations, but be smart about it
+```python
+def _track_with_redis(self):
+	typ, ids = self.connection.uid('search', '(X-GM-RAW has:attachment)')
+		for id in ids:
+	self.redis.rpush(self.redis_key, id)
+```
+
+* as we iterate over the account we grab ids from redis:
+
+```python
+message_id = self.redis.rpop(self.redis_key)
+```
+
+* we have a monitoring layer that observes keys in Redis, and proactively ensures that crawls complete.
+
+3. Retry operations, but be smart about it
 ------------------------------------------
 
-5. Airbrake is really helpful
+4. Airbrake is really helpful
 ----------------------------
 
 [Ben Coe](http://twitter.com/#/benjamincoe)
