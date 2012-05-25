@@ -29,7 +29,7 @@ If you don't approach things methodically, you'll just make things worse -- trus
 
 An example
 ----------
-We needed to be able to handle throttled IMAP accounts.
+We needed to handle throttled IMAP accounts.
 
 From an integration test, we determined that ```typ, data = self.connection.check()``` would return _THROTTLED_, when accounts were in a throttled state.
 
@@ -103,7 +103,7 @@ class MyClass(object):
 
 Airbrake is a service that centrally aggregates the exceptions your projects throw. It handles notifying you by email, and provides a historical view of exceptions that have occurred.
 
-* We've been much more proactive about fixing problems, since pulling in Airbrake -- getting hassled via email goes a long way.
+* We've been much more proactive about fixing problems, since starting to use Airbrake -- getting hassled via email goes a long way.
 * Airbrake's historical record of exceptions helps a ton when building mock APIs for unit tests.
 
 _groundhogday_ also has an Airbrake decorator, which we lean on heavily:
