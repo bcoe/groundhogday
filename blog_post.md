@@ -123,6 +123,6 @@ class MyClass(object):
 
 My experiences wrestling with IMAP were my motivation for building _groundhogday_, which I'm just starting to pull into some of our projects.
 
-I hope you've found some of these tips and the library itself useful, please don't hesitate to contact and/or flame me:
+I hope you've found some of these tips, and the library itself, useful. Please don't hesitate to contact and/or flame me:
 
 [Ben Coe](http://twitter.com/#/benjamincoe)
