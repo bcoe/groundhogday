@@ -52,6 +52,7 @@ The Groundhog Day decorator can be configured with the following parameters.
 * _notification\_callback_: the name of a callback to execute when the notification threshold is reached.
 * _exception\_callback_: the name of a callback to execute after each exception occurs.
 * _maximum\_retry\_callback_: the name of a method to execute after a maximum number of retries is hit.
+* _environment_: set environment to _test_ to disable sleeping and airbrake notifications.
 
 Airbrake Decorator
 ------------------
