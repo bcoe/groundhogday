@@ -26,11 +26,10 @@ class AwesomeFakeClass():
     @GroundhogDay(backoff=LINEAR, sleep_time=0.3, maximum_retries=3)
     def linear_backoff_exception(self):
         raise Exception('my exception')
-
-    # this is an integration test.
-    #@RetryWithAirbrake
-    #def function_that_sends_error_to_airbrake(self):
-    #    raise Exception('an airbrake exception')
+        
+    @GroundhogDay(environment='test', backoff=LINEAR, sleep_time=50, maximum_retries=3)
+    def test_environment_method(self):
+        raise Exception('test exception')
     
     @GroundhogDay
     def function_that_works(self):
@@ -123,13 +122,14 @@ class TestGroundhogDay(unittest.TestCase):
         self.assertTrue(time.time() - start >= 0.5)
         self.assertTrue(time.time() - start <= 0.7)
     
-    #   An integration test while building the retry_with_airbrake decorator.
-    #   def test_airbrake_retry_decorator(self):
-    #   afc = AwesomeFakeClass(self)
-    #    try:
-    #        afc.function_that_sends_error_to_airbrake()
-    #    except:
-    #        pass
+    def test_test_environment_should_not_sleep(self):
+        start = time.time()
+        afc = AwesomeFakeClass(self)
+        try:
+            afc.test_environment_method(add=1)
+        except:
+            pass
+        self.assertTrue(time.time() - start < 0.5)
     
     def test_exception_callback(self):
         afc = AwesomeFakeClass(self)

@@ -17,8 +17,12 @@ class GroundhogDayClass(object):
         self.exception_callback_name = kwargs.get('exception_callback', None)
         self.notification_callback_name = kwargs.get('notification_callback', None)
         self.maximum_retry_callback_name = kwargs.get('maximum_retry_callback', None)
+        self.environment = kwargs.get('environment', 'production')
         
     def _sleep(self, retry_count):
+        if self.environment == 'test':
+            return
+        
         if self.backoff == LINEAR:
             time.sleep(self.sleep_time)
         else:
