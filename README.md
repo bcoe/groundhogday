@@ -75,6 +75,22 @@ class MyClass(object):
 * You can also provide any of the configuration options available in the GroundhogDay decorator.
 * Rather than providing all the API information in the decorator, you can export the _PYTOAD\_CONFIG\_DIRECTORY_ environment variable.
 
+Sentry Decorator
+----------------
+
+Groundhog Day also provides a decorator that integrates with [Sentry](https://www.getsentry.com)
+
+```python
+class MyClass(object):
+	@RetryWithSentry(
+		dsn='[AIRBRAKE-API-KEY]'
+	)
+	def function_that_sends_error_to_sentry(self):
+		raise Exception('This exception will be sent to Sentry')
+```
+* You can provide any keyword arguments that [raven](https://github.com/dcramer/raven) supports.
+* You can also provide any of the configuration options available in the GroundhogDay decorator.
+
 Copyright
 ---------
 

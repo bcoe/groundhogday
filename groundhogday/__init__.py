@@ -1,2 +1,3 @@
 from groundhogday import GroundhogDay, LINEAR, EXPONENTIAL
 from retry_with_airbrake import RetryWithAirbrake
+from retry_with_sentry import RetryWithSentry
