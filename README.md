@@ -60,6 +60,8 @@ Airbrake Decorator
 Groundhog Day provides a decorator that integrates with [Airbrake](http://attachmentsme.airbrake.io/)
 
 ```python
+from groundhogday import RetryWithAirbrake
+
 class MyClass(object):
 	@RetryWithAirbrake(
 		name='Python-Crawling-Stack',
@@ -68,7 +70,7 @@ class MyClass(object):
 		environment_name='production',
 		api_key='[AIRBRAKE-API-KEY]'
 	)
-	def function_that_sends_error_to_airbrake(self):
+	def method_that_sends_error_to_airbrake(self):
 		raise Exception('This exception will be sent to Airbrake')
 ```
 
@@ -81,11 +83,13 @@ Sentry Decorator
 Groundhog Day also provides a decorator that integrates with [Sentry](https://www.getsentry.com)
 
 ```python
+from groundhogday import RetryWithSentry
+
 class MyClass(object):
 	@RetryWithSentry(
-		dsn='[AIRBRAKE-API-KEY]'
+		dsn='[SENTRY-PROJECT-URL]'
 	)
-	def function_that_sends_error_to_sentry(self):
+	def method_that_sends_error_to_sentry(self):
 		raise Exception('This exception will be sent to Sentry')
 ```
 * You can provide any keyword arguments that [raven](https://github.com/dcramer/raven) supports.
