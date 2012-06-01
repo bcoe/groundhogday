@@ -43,26 +43,32 @@ class GroundhogDayClass(object):
                     return self.f(*args, **kwargs)
                 except Exception, e:
                     last_exception = e
-                    exception_callback = self._get_wrapped_method(args[0], self.exception_callback_name)
+                    exception_callback = self._get_wrapped_method(args, self.exception_callback_name)
                     if exception_callback:
                         exception_callback(last_exception)
                         
-                    notification_callback = self._get_wrapped_method(args[0], self.notification_callback_name)
+                    notification_callback = self._get_wrapped_method(args, self.notification_callback_name)
                     if notification_callback and retry_count == (self.notification_threshold - 1):
                         notification_callback(last_exception)
             
             if self.maximum_retry_callback_name:
-                maximum_retry_callback = self._get_wrapped_method(args[0], self.maximum_retry_callback_name)
+                maximum_retry_callback = self._get_wrapped_method(args, self.maximum_retry_callback_name)
                 if maximum_retry_callback:
                     maximum_retry_callback(last_exception)
             
             raise last_exception
         return wrap
     
-    def _get_wrapped_method(self, wrapped_self, method_name):
+    def _get_wrapped_method(self, args, method_name):
         if callable(method_name): # Allow for callbacks to be callables rather than method names.
             return method_name
-            
+        
+        # Callbacks only supported when wrapping a class.
+        if len(args) and type(args[0]) == types.InstanceType:
+            wrapped_self = args[0]
+        else:
+            return None
+        
         members = {}
         for kv in inspect.getmembers(wrapped_self, inspect.ismethod):
             if kv[0] == method_name:

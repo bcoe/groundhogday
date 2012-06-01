@@ -11,6 +11,10 @@ class MockPytoadConnection(Connection):
     def send_to_hoptoad(self, exception):
         self.exceptions.append( exception )
 
+@GroundhogDay(notification_threshold=2, sleep_time=0.5, maximum_retries=3, maximum_retry_callback='my_maximum_retry_callback', notification_callback='my_notification_callback', exception_callback='my_exception_callback')
+def function_that_raises_exception():
+    raise Exception('foobar exception')
+
 class AwesomeFakeClass():
     
     def __init__(self, testCase):
@@ -102,6 +106,15 @@ class TestGroundhogDay(unittest.TestCase):
         try:
             afc.function_that_raises_exception(add=1)
         except:
+            pass
+        self.assertTrue(time.time() - start >= 0.3)
+        self.assertTrue(time.time() - start <= 0.5)
+    
+    def test_function_outside_class_can_be_decorated(self):
+        start = time.time()
+        try:
+            function_that_raises_exception()
+        except Exception, e:
             pass
         self.assertTrue(time.time() - start >= 0.3)
         self.assertTrue(time.time() - start <= 0.5)
